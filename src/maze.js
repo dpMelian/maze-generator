@@ -1,7 +1,6 @@
-const cellSize = 20;
-const rows = 20;
-const columns = 20;
-const wallSize = 5;
+const cellSize = 10;
+const rows = 40;
+const columns = 40;
 
 function Maze() {
     
@@ -16,7 +15,7 @@ function Maze() {
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    var cells = new Array(400);
+    var cells = new Array(1600);
     for(let i = 0; i < cells.length; i++){
         cells[i] = new Cell();
     }
@@ -26,8 +25,10 @@ function Maze() {
 }
 
 const Draw = async(canvas, ctx, cells) => {
+    ctx.fillStyle = "#000000";
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
+            /*
             if(cells[i+j].top){
                 ctx.moveTo(i * cellSize, j * cellSize);
                 ctx.lineTo((i+1) * cellSize, j * cellSize);
@@ -48,17 +49,22 @@ const Draw = async(canvas, ctx, cells) => {
                 ctx.lineTo(i * cellSize, (j-1) * cellSize);
                 ctx.stroke();
             }
-            await sleep(5);
+            */
+
+            if(i === 0 || j === 0 || i === 39 || j === 39){
+                cells[i * columns + j].isWall = true;
+            }
+
+            if(cells[i * columns + j].isWall){
+                ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+            }
         }
     }
 }
 
 class Cell{
     constructor(){
-        this.top = Math.random() < 0.6;
-        this.right = Math.random() < 0.6;
-        this.bottom = Math.random() < 0.6;
-        this.left = Math.random() < 0.6;
+        this.isWall = Math.random() < 0.5;
     }
 }
 

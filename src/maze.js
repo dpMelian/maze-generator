@@ -1,6 +1,6 @@
 const cellSize = 10;
-const rows = 39;
-const columns = 39;
+const rows = 41;
+const columns = 41;
 var cells = createArray(rows, columns);
 var randomDirections = [];
 var stack;
@@ -18,8 +18,8 @@ function Maze() {
     
     const canvas = document.getElementById('maze');
 
-    canvas.width = 390;
-    canvas.height = 390;
+    canvas.width = 410;
+    canvas.height = 410;
 
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -27,7 +27,8 @@ function Maze() {
     Draw(ctx);
 
     //generateMaze(ctx, 1, 3);
-    backtracker(ctx, 10, 10);
+    stack.push(cells[15][15]);
+    backtracker(ctx, 15, 15);
 
     Draw(ctx);
 }
@@ -39,8 +40,8 @@ const Draw = async(ctx) => {
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             } else {
-                ctx.fillStyle = '#ffff00';
-                if(i === 10 && j === 10){
+                ctx.fillStyle = '#ffffff';
+                if(i === 15 && j === 15){
                     ctx.fillStyle = '#ff0000';
                 }
                 ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
@@ -63,44 +64,45 @@ function backtracker(ctx, x, y) {
     cells[x][y].isWall = false;
     stack.push(cells[x][y]);
 
-    counter++;
-
     var randomDirections = [];
     for(let i = 0; i < 4; i++){
-        if(!cells[x][y-2].isVisited && i == 0){
-            randomDirections.push(1);
-        }
-        if(!cells[x+2][y].isVisited && i == 1){
-            randomDirections.push(2);
-        }
-        if(!cells[x][y+2].isVisited && i == 2){
-            randomDirections.push(3);
-        }
-        if(!cells[x-2][y].isVisited && i == 3){
-            randomDirections.push(4);
+        try{
+            if(!cells[x][y-2].isVisited && i == 0){
+                randomDirections.push(1);
+            }
+            if(!cells[x+2][y].isVisited && i == 1){
+                randomDirections.push(2);
+            }
+            if(!cells[x][y+2].isVisited && i == 2){
+                randomDirections.push(3);
+            }
+            if(!cells[x-2][y].isVisited && i == 3){
+                randomDirections.push(4);
+            }
+        } catch(error){
+            if(stack.length > 0){
+                backtracker(ctx, x, y);
+            }
         }
     }
-    var foo = stack.peek();
-    console.log(foo.x, foo.y);
     shuffle(randomDirections);
-    if(randomDirections.length == 0 && stack.length > 1){
-        console.log('************************')
+
+    /*
+    if(randomDirections.length === 0 && stack.length() > 1){
+        console.log('BACKTRACKING');
         stack.pop();
         var topOfStack = stack.pop();
         console.log(topOfStack.x, topOfStack.y);
         backtracker(ctx, topOfStack.x, topOfStack.y);
     }
+    */
 
     for(let i = 0; i < randomDirections.length; i++){
-        
         switch(randomDirections[i]){
             case 1: //up
-                if(cells[x][y-1] && !cells[x][y-2].isVisited && y-2 > 0){
+                if(!cells[x][y-2].isVisited && y-2 > 0){
                     stack.push(cells[x][y-2]);
-                    //stack.push(cells[x][y-1]);
-                    cells[x][y-2].isVisited = true;
                     cells[x][y-1].isVisited = true;
-                    cells[x][y-2].isWall = false;
                     cells[x][y-1].isWall = false;
                     backtracker(ctx, x, y-2);
                 } else if(cells[x][y-2].isVisited && y-2 > 0){
@@ -113,17 +115,14 @@ function backtracker(ctx, x, y) {
                 }
                 break;
             case 2: //right
-                if(cells[x+2][y] && !cells[x+2][y].isVisited && x+2 < 38){
+                if(!cells[x+2][y].isVisited && x+2 < 40){
                     stack.push(cells[x+2][y]);
-                    //stack.push(cells[x+1][y]);
-                    cells[x+2][y].isVisited = true;
                     cells[x+1][y].isVisited = true;
-                    cells[x+2][y].isWall = false;
                     cells[x+1][y].isWall = false;
                     backtracker(ctx, x+2, y);
-                } else if(cells[x+1][y].isVisited && x+2 < 38){
+                } else if(cells[x+1][y].isVisited && x+2 < 40){
                     backtracker(ctx, x, y);
-                } else if(x+2 >= 38){
+                } else if(x+2 >= 40){
                     stack.pop();
                     stack.pop();
                     var topOfStack = stack.peek();
@@ -131,17 +130,14 @@ function backtracker(ctx, x, y) {
                 }
                 break;
             case 3: //down
-                if(cells[x][y+2] && !cells[x][y+2].isVisited && y+2 < 38){
+                if(!cells[x][y+2].isVisited && y+2 < 40){
                     stack.push(cells[x][y+2]);
-                    //stack.push(cells[x][y+1]);
-                    cells[x][y+2].isVisited = true;
                     cells[x][y+1].isVisited = true;
-                    cells[x][y+2].isWall = false;
                     cells[x][y+1].isWall = false;
                     backtracker(ctx, x, y+2);
-                } else if(cells[x][y+2].isVisited && y+2 < 38){
+                } else if(cells[x][y+2].isVisited && y+2 < 40){
                     backtracker(ctx, x, y);
-                } else if(y+2 >= 38){
+                } else if(y+2 >= 40){
                     stack.pop();
                     stack.pop();
                     var topOfStack = stack.peek();
@@ -149,12 +145,9 @@ function backtracker(ctx, x, y) {
                 }
                 break;
             case 4: //left
-                if(cells[x-2][y] && !cells[x-2][y].isVisited && x-2 > 0){
+                if(!cells[x-2][y].isVisited && x-2 > 0){
                     stack.push(cells[x-2][y]);
-                    //stack.push(cells[x-1][y]);
-                    cells[x-2][y].isVisited = true;
                     cells[x-1][y].isVisited = true;
-                    cells[x-2][y].isWall = false;
                     cells[x-1][y].isWall = false;
                     backtracker(ctx, x-2, y);
                 } else if(cells[x-2][y].isVisited && x-2 > 0){

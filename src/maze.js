@@ -63,6 +63,7 @@ const Draw = async(ctx) => {
 function backtracker(ctx, x, y) {
     cells[x][y].isVisited = true;
     cells[x][y].isWall = false;
+    stack.push(cells[x][y]);
 
     var randomDirections = [];
     for(let i = 0; i < 4; i++){
@@ -89,13 +90,9 @@ function backtracker(ctx, x, y) {
     }
     shuffle(randomDirections);
 
-    console.log(randomDirections);
-    console.log(stack.printStack());
-
     switch(randomDirections[0]){
         case 1: //up
             if(!cells[x][y-2].isVisited && y-2 > 0){
-                stack.push(cells[x][y-2]);
                 cells[x][y-1].isVisited = true;
                 cells[x][y-1].isWall = false;
                 backtracker(ctx, x, y-2);
@@ -107,7 +104,6 @@ function backtracker(ctx, x, y) {
             break;
         case 2: //right
             if(!cells[x+2][y].isVisited && x+2 < 40){
-                stack.push(cells[x+2][y]);
                 cells[x+1][y].isVisited = true;
                 cells[x+1][y].isWall = false;
                 backtracker(ctx, x+2, y);
@@ -119,7 +115,6 @@ function backtracker(ctx, x, y) {
             break;
         case 3: //down
             if(!cells[x][y+2].isVisited && y+2 < 40){
-                stack.push(cells[x][y+2]);
                 cells[x][y+1].isVisited = true;
                 cells[x][y+1].isWall = false;
                 backtracker(ctx, x, y+2);
@@ -131,7 +126,6 @@ function backtracker(ctx, x, y) {
             break;
         case 4: //left
             if(!cells[x-2][y].isVisited && x-2 > 0){
-                stack.push(cells[x-2][y]);
                 cells[x-1][y].isVisited = true;
                 cells[x-1][y].isWall = false;
                 backtracker(ctx, x-2, y);
@@ -145,7 +139,6 @@ function backtracker(ctx, x, y) {
             if(stack.length() > 1){
                 stack.pop();
                 var nextCell = stack.pop();
-                console.log('backtracking');
                 backtracker(ctx, nextCell.x, nextCell.y);
             }
     }

@@ -1,7 +1,7 @@
 # Maze Generator
 
 ## Demo
-If you want to see this project in action, you can [try the demo here]().
+If you want to see this project in action, you can [try the demo here](https://dpmelian.github.io/maze-generator/).
 
 ## Description
 This is a project that generates a random maze using the [recursive backtracker algorithm](https://en.wikipedia.org/wiki/Maze_generation_algorithm#Randomized_depth-first_search) in JavaScript.

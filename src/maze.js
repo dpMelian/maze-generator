@@ -1,6 +1,6 @@
 const cellSize = 10;
-const rows = 40;
-const columns = 40;
+const rows = 39;
+const columns = 39;
 var cells = createArray(rows, columns);
 var randomDirections = [];
 var stack;
@@ -18,8 +18,8 @@ function Maze() {
     
     const canvas = document.getElementById('maze');
 
-    canvas.width = 400;
-    canvas.height = 400;
+    canvas.width = 390;
+    canvas.height = 390;
 
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -83,7 +83,7 @@ function backtracker(ctx, x, y) {
     var foo = stack.peek();
     console.log(foo.x, foo.y);
     shuffle(randomDirections);
-    if(randomDirections.length == 0){
+    if(randomDirections.length == 0 && stack.length > 1){
         console.log('************************')
         stack.pop();
         var topOfStack = stack.pop();
@@ -92,13 +92,10 @@ function backtracker(ctx, x, y) {
     }
 
     for(let i = 0; i < randomDirections.length; i++){
-        if(counter == 60){
-            break;
-        }
         
         switch(randomDirections[i]){
             case 1: //up
-                if(cells[x][y-1] && !cells[x][y-2].isVisited && y-2 !== 0){
+                if(cells[x][y-1] && !cells[x][y-2].isVisited && y-2 > 0){
                     stack.push(cells[x][y-2]);
                     //stack.push(cells[x][y-1]);
                     cells[x][y-2].isVisited = true;
@@ -106,9 +103,9 @@ function backtracker(ctx, x, y) {
                     cells[x][y-2].isWall = false;
                     cells[x][y-1].isWall = false;
                     backtracker(ctx, x, y-2);
-                } else if(cells[x][y-2].isVisited && y-2 !== 0){
+                } else if(cells[x][y-2].isVisited && y-2 > 0){
                     backtracker(ctx, x, y);
-                } else if(y-2 === 0){
+                } else if(y-2 <= 0){
                     stack.pop();
                     stack.pop();
                     var topOfStack = stack.peek();
@@ -116,7 +113,7 @@ function backtracker(ctx, x, y) {
                 }
                 break;
             case 2: //right
-                if(cells[x+2][y] && !cells[x+2][y].isVisited && x+2 !== 39){
+                if(cells[x+2][y] && !cells[x+2][y].isVisited && x+2 < 38){
                     stack.push(cells[x+2][y]);
                     //stack.push(cells[x+1][y]);
                     cells[x+2][y].isVisited = true;
@@ -124,9 +121,9 @@ function backtracker(ctx, x, y) {
                     cells[x+2][y].isWall = false;
                     cells[x+1][y].isWall = false;
                     backtracker(ctx, x+2, y);
-                } else if(cells[x+1][y].isVisited && x+2 !== 39){
+                } else if(cells[x+1][y].isVisited && x+2 < 38){
                     backtracker(ctx, x, y);
-                } else if(x+2 === 39){
+                } else if(x+2 >= 38){
                     stack.pop();
                     stack.pop();
                     var topOfStack = stack.peek();
@@ -134,7 +131,7 @@ function backtracker(ctx, x, y) {
                 }
                 break;
             case 3: //down
-                if(cells[x][y+2] && !cells[x][y+2].isVisited && y+2 !== 39){
+                if(cells[x][y+2] && !cells[x][y+2].isVisited && y+2 < 38){
                     stack.push(cells[x][y+2]);
                     //stack.push(cells[x][y+1]);
                     cells[x][y+2].isVisited = true;
@@ -142,9 +139,9 @@ function backtracker(ctx, x, y) {
                     cells[x][y+2].isWall = false;
                     cells[x][y+1].isWall = false;
                     backtracker(ctx, x, y+2);
-                } else if(cells[x][y+2].isVisited && y+2 !== 39){
+                } else if(cells[x][y+2].isVisited && y+2 < 38){
                     backtracker(ctx, x, y);
-                } else if(y+2 === 39){
+                } else if(y+2 >= 38){
                     stack.pop();
                     stack.pop();
                     var topOfStack = stack.peek();
@@ -152,7 +149,7 @@ function backtracker(ctx, x, y) {
                 }
                 break;
             case 4: //left
-                if(cells[x-2][y] && !cells[x-2][y].isVisited && x-2 !== 0){
+                if(cells[x-2][y] && !cells[x-2][y].isVisited && x-2 > 0){
                     stack.push(cells[x-2][y]);
                     //stack.push(cells[x-1][y]);
                     cells[x-2][y].isVisited = true;
@@ -160,9 +157,9 @@ function backtracker(ctx, x, y) {
                     cells[x-2][y].isWall = false;
                     cells[x-1][y].isWall = false;
                     backtracker(ctx, x-2, y);
-                } else if(cells[x-2][y].isVisited && x-2 !== 0){
+                } else if(cells[x-2][y].isVisited && x-2 > 0){
                     backtracker(ctx, x, y);
-                } else if(x-2 === 0){
+                } else if(x-2 <= 0){
                     stack.pop();
                     stack.pop();
                     var topOfStack = stack.peek();

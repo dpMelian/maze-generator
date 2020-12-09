@@ -12,6 +12,4 @@ Frequently implemented with a stack, this approach is one of the simplest ways t
 
 As given above this algorithm involves deep recursion which may cause stack overflow issues on some computer architectures. The algorithm can be rearranged into a loop by storing backtracking information in the maze itself. This also provides a quick way to display a solution, by starting at any given point and backtracking to the beginning.
 
-
-Horizontal Passage Bias
 Mazes generated with a depth-first search have a low branching factor and contain many long corridors, because the algorithm explores as far as possible along each branch before backtracking.

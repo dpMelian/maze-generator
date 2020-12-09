@@ -1,9 +1,10 @@
 const cellSize = 10;
-const rows = 41;
-const columns = 41;
-var cells = createArray(rows, columns);
+var rows = 41;
+var columns = 41;
+var cells;
 var randomDirections = [];
 var stack;
+var slowMode = false;
 
 class Cell{
     constructor(){
@@ -14,8 +15,28 @@ class Cell{
     }
 }
 
-function Maze() {
+function maze() {
+    rows = document.getElementById('maze-size').value;
+    columns = document.getElementById('maze-size').value;
+    slowMode = document.getElementById('slow-mode').checked;
+    cells = createArray(rows, columns);
     stack = new Stack();
+
+    if(rows % 2 == 0){
+        var alertBootstrap = document.createElement('div');
+        alertBootstrap.innerHTML = 'Number must be odd';
+        alertBootstrap.setAttribute('id', 'alertBootstrap');
+        alertBootstrap.setAttribute('class', 'alert alert-primary');
+        alertBootstrap.setAttribute('role', 'alert');
+        document.body.prepend(alertBootstrap);
+        return;
+    } else{
+        var alertBootstrap = document.getElementById('alertBootstrap'); 
+        if(alertBootstrap !== null){
+            alertBootstrap.remove();
+        }
+    }
+
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
             cells[i][j] = new Cell();
@@ -24,23 +45,28 @@ function Maze() {
         }
     }
     
+    cells[0][1].isWall = false;
+    cells[rows-1][columns-2].isWall = false;
+
     const canvas = document.getElementById('maze');
 
-    canvas.width = 410;
-    canvas.height = 410;
+    canvas.width = rows * 10;
+    canvas.height = columns * 10;
 
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    Draw(ctx);
+    draw(ctx);
 
     stack.push(cells[1][1]);
     backtracker(ctx, 1, 1);
 
-    Draw(ctx);
+    if(!slowMode){
+        draw(ctx);
+    }
 }
 
-const Draw = async(ctx) => {
+const draw = async(ctx) => {
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
             if(cells[i][j].isWall){
@@ -52,19 +78,18 @@ const Draw = async(ctx) => {
             }
         }
     }
-
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0 * cellSize, 1 * cellSize, cellSize, cellSize);
-    cells[0][1].isWall = false;
-    ctx.fillRect(40 * cellSize, 39 * cellSize, cellSize, cellSize);
-    cells[40][39].isWall = false;
 }
 
-function backtracker(ctx, x, y) {
+const backtracker = async(ctx, x, y) => {
     cells[x][y].isVisited = true;
     cells[x][y].isWall = false;
     stack.push(cells[x][y]);
-
+    
+    if(slowMode){
+        await sleep(15);
+        draw(ctx);
+    }
+    
     var randomDirections = [];
     for(let i = 0; i < 4; i++){
         if(y-2 > 0){
@@ -72,12 +97,12 @@ function backtracker(ctx, x, y) {
                 randomDirections.push(1);
             }
         }
-        if(x+2 < 40){
+        if(x+2 < rows-1){
             if(!cells[x+2][y].isVisited && i == 1){
                 randomDirections.push(2);
             }
         }
-        if(y+2 < 40){
+        if(y+2 < rows-1){
             if(!cells[x][y+2].isVisited && i == 2){
                 randomDirections.push(3);
             }
@@ -103,24 +128,24 @@ function backtracker(ctx, x, y) {
             }
             break;
         case 2: //right
-            if(!cells[x+2][y].isVisited && x+2 < 40){
+            if(!cells[x+2][y].isVisited && x+2 < rows-1){
                 cells[x+1][y].isVisited = true;
                 cells[x+1][y].isWall = false;
                 backtracker(ctx, x+2, y);
-            } else if(cells[x+1][y].isVisited && x+2 < 40){
+            } else if(cells[x+1][y].isVisited && x+2 < rows-1){
                 backtracker(ctx, x, y);
-            } else if(!cells[x+2][y].isVisited && x+2 > 40){
+            } else if(!cells[x+2][y].isVisited && x+2 > rows-1){
                 backtracker(ctx, x, y);
             }
             break;
         case 3: //down
-            if(!cells[x][y+2].isVisited && y+2 < 40){
+            if(!cells[x][y+2].isVisited && y+2 < rows-1){
                 cells[x][y+1].isVisited = true;
                 cells[x][y+1].isWall = false;
                 backtracker(ctx, x, y+2);
-            } else if(cells[x][y+2].isVisited && y+2 < 40){
+            } else if(cells[x][y+2].isVisited && y+2 < rows-1){
                 backtracker(ctx, x, y);
-            } else if(!cells[x][y+2].isVisited && y+2 > 40){
+            } else if(!cells[x][y+2].isVisited && y+2 > rows-1){
                 backtracker(ctx, x, y);
             }
             break;

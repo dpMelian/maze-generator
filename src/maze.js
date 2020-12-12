@@ -5,6 +5,7 @@ var cells;
 var randomDirections = [];
 var stack;
 var slowMode = false;
+var ctx;
 
 class Cell{
     constructor(){
@@ -53,7 +54,7 @@ function maze() {
     canvas.width = rows * 10;
     canvas.height = columns * 10;
 
-    const ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     draw(ctx);
@@ -66,15 +67,22 @@ function maze() {
     }
 }
 
-const draw = async(ctx) => {
+const draw = async() => {
+    var playerCells = getPlayerCells();
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
             if(cells[i][j].isWall){
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
-            } else {
+            } else if(!cells[i][j].isWall){
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+            }
+            if(playerCells){
+                if(playerCells[i][j].isPainted){
+                    ctx.fillStyle = '#65ff65';
+                    ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                }
             }
         }
     }
@@ -201,4 +209,16 @@ function shuffle(a) {
 
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+function getCells(){
+    return this.cells;
+}
+
+function getRows(){
+    return this.rows;
+}
+
+function getColumns(){
+    return this.columns;
 }

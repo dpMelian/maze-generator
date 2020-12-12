@@ -27,6 +27,7 @@ function play(){
     draw();
 
     document.addEventListener('keydown', function(e) {
+        e.preventDefault();
         console.log(currentCell);
         switch (e.key) {
             case 'ArrowUp':

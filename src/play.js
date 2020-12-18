@@ -1,5 +1,6 @@
 var playerCells;
 var currentCell;
+var eventListenerExists = false;
 
 class PlayerCell{
     constructor(){
@@ -10,6 +11,8 @@ class PlayerCell{
 }
 
 function play(){
+    playerCells = null;
+    
     var rows = getRows();
     var columns = getColumns();
     playerCells = createArray(rows, columns);
@@ -26,9 +29,8 @@ function play(){
     currentCell.isPainted = true;
     draw();
 
-    document.addEventListener('keydown', function(e) {
+    var keyHandler = function (e) {
         e.preventDefault();
-        console.log(currentCell);
         switch (e.key) {
             case 'ArrowUp':
                 var cells = getCells();
@@ -36,9 +38,9 @@ function play(){
                     if(cells[currentCell.x][currentCell.y-1].isWall){
                         break;
                     } else{
+                        console.log('up');
                         currentCell = playerCells[currentCell.x][currentCell.y-1];
                         currentCell.isPainted = true;
-                        console.log('up');
                         draw();
                         break;
                     }
@@ -50,9 +52,9 @@ function play(){
                     if(cells[currentCell.x+1][currentCell.y].isWall){
                         break;
                     } else{
+                        console.log('right');
                         currentCell = playerCells[currentCell.x+1][currentCell.y];
                         currentCell.isPainted = true;
-                        console.log('right');
                         draw();
                         break;
                     }
@@ -64,9 +66,9 @@ function play(){
                     if(cells[currentCell.x][currentCell.y+1].isWall){
                         break;
                     } else{
+                        console.log('down');
                         currentCell = playerCells[currentCell.x][currentCell.y+1];
                         currentCell.isPainted = true;
-                        console.log('down');
                         draw();
                         break;
                     }
@@ -78,16 +80,21 @@ function play(){
                     if(cells[currentCell.x][currentCell.y].isWall){
                         break;
                     } else{
+                        console.log('left');
                         currentCell = playerCells[currentCell.x-1][currentCell.y];
                         currentCell.isPainted = true;
-                        console.log('left');
                         draw();
                         break;
                     }
                 }
                 break;
         }
-    });
+    }
+
+    if(!eventListenerExists){
+        document.addEventListener("keydown", keyHandler);
+        eventListenerExists = true;
+    }
 }
 
 function getPlayerCells(){

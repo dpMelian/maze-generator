@@ -38,7 +38,6 @@ function play(){
                     if(cells[currentCell.x][currentCell.y-1].isWall){
                         break;
                     } else{
-                        console.log('up');
                         currentCell = playerCells[currentCell.x][currentCell.y-1];
                         currentCell.isPainted = true;
                         draw();
@@ -52,7 +51,6 @@ function play(){
                     if(cells[currentCell.x+1][currentCell.y].isWall){
                         break;
                     } else{
-                        console.log('right');
                         currentCell = playerCells[currentCell.x+1][currentCell.y];
                         currentCell.isPainted = true;
                         draw();
@@ -66,7 +64,6 @@ function play(){
                     if(cells[currentCell.x][currentCell.y+1].isWall){
                         break;
                     } else{
-                        console.log('down');
                         currentCell = playerCells[currentCell.x][currentCell.y+1];
                         currentCell.isPainted = true;
                         draw();
@@ -80,7 +77,6 @@ function play(){
                     if(cells[currentCell.x][currentCell.y].isWall){
                         break;
                     } else{
-                        console.log('left');
                         currentCell = playerCells[currentCell.x-1][currentCell.y];
                         currentCell.isPainted = true;
                         draw();
@@ -99,4 +95,14 @@ function play(){
 
 function getPlayerCells(){
     return this.playerCells;
+}
+
+function clearPlayerCells(){
+    if(playerCells !== undefined){
+        for(let i = 0; i < rows; i++){
+            for(let j = 0; j < columns; j++){
+                playerCells[i][j].isPainted = false;
+            }
+        }
+    }
 }

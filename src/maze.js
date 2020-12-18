@@ -23,6 +23,8 @@ function maze() {
     cells = createArray(rows, columns);
     stack = new Stack();
 
+    clearPlayerCells();
+
     if(rows % 2 == 0){
         var alertBootstrap = document.createElement('div');
         alertBootstrap.innerHTML = 'Number must be odd';

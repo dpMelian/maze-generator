@@ -26,6 +26,13 @@ function maze() {
 
     clearPlayerCells();
 
+    console.log(document.getElementById('success'));
+
+    hasWon = false;
+    if(document.getElementById('success') !== null){
+        document.getElementById('success').remove();
+    }
+
     if(rows % 2 == 0){
         var alertBootstrap = document.createElement('div');
         alertBootstrap.innerHTML = 'Number must be odd';
@@ -87,7 +94,7 @@ const draw = async(x, y) => {
                     ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
                 }
                 if(i === x && j === y){
-                    ctx.fillStyle = '#4FCB4F';
+                    ctx.fillStyle = '#2abb2a';
                     ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
                 }
             }

@@ -1,8 +1,9 @@
 var playerCells;
 var currentCell;
 var eventListenerExists = false;
-var step1 = document.getElementById('step1');
-var step2 = document.getElementById('step2');
+var slide1 = document.getElementById('slide1');
+var slide2 = document.getElementById('slide2');
+var sound = false;
 
 class PlayerCell{
     constructor(){
@@ -17,6 +18,9 @@ function play(){
     
     var rows = getRows();
     var columns = getColumns();
+
+    sound = document.getElementById('sound').checked;
+
     playerCells = createArray(rows, columns);
     
     for(let i = 0; i < rows; i++){
@@ -43,12 +47,12 @@ function play(){
                         currentCell = playerCells[currentCell.x][currentCell.y-1];
                         currentCell.isPainted = true;
                         var randomBoolean = Math.random() < 0.5;
-                        if(randomBoolean){
-                            step1.currentTime = 0;
-                            step1.play();
-                        } else{
-                            step2.currentTime = 0;
-                            step2.play();
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
                         }
                         draw(currentCell.x, currentCell.y);
                         break;
@@ -64,12 +68,12 @@ function play(){
                         currentCell = playerCells[currentCell.x+1][currentCell.y];
                         currentCell.isPainted = true;
                         var randomBoolean = Math.random() < 0.5;
-                        if(randomBoolean){
-                            step1.currentTime = 0;
-                            step1.play();
-                        } else{
-                            step2.currentTime = 0;
-                            step2.play();
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
                         }
                         draw(currentCell.x, currentCell.y);
                         break;
@@ -85,12 +89,12 @@ function play(){
                         currentCell = playerCells[currentCell.x][currentCell.y+1];
                         currentCell.isPainted = true;
                         var randomBoolean = Math.random() < 0.5;
-                        if(randomBoolean){
-                            step1.currentTime = 0;
-                            step1.play();
-                        } else{
-                            step2.currentTime = 0;
-                            step2.play();
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
                         }
                         draw(currentCell.x, currentCell.y);
                         break;
@@ -106,12 +110,12 @@ function play(){
                         currentCell = playerCells[currentCell.x-1][currentCell.y];
                         currentCell.isPainted = true;
                         var randomBoolean = Math.random() < 0.5;
-                        if(randomBoolean){
-                            step1.currentTime = 0;
-                            step1.play();
-                        } else{
-                            step2.currentTime = 0;
-                            step2.play();
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
                         }
                         draw(currentCell.x, currentCell.y);
                         break;

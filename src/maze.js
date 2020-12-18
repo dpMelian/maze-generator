@@ -6,6 +6,7 @@ var randomDirections = [];
 var stack;
 var slowMode = false;
 var ctx;
+var hasWon = false;
 
 class Cell{
     constructor(){
@@ -69,7 +70,7 @@ function maze() {
     }
 }
 
-const draw = async() => {
+const draw = async(x, y) => {
     var playerCells = getPlayerCells();
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
@@ -85,8 +86,21 @@ const draw = async() => {
                     ctx.fillStyle = '#65ff65';
                     ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
                 }
+                if(i === x && j === y){
+                    ctx.fillStyle = '#4FCB4F';
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
             }
         }
+    }
+    if(x === rows-1 && y === columns-2 && !hasWon){
+        hasWon = true;
+        var success = document.createElement('div');
+        success.innerHTML = 'You solved it!';
+        success.setAttribute('id', 'success');
+        success.setAttribute('class', 'alert alert-success');
+        success.setAttribute('role', 'alert');
+        document.body.append(success);
     }
 }
 

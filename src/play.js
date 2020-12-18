@@ -1,6 +1,8 @@
 var playerCells;
 var currentCell;
 var eventListenerExists = false;
+var step1 = document.getElementById('step1');
+var step2 = document.getElementById('step2');
 
 class PlayerCell{
     constructor(){
@@ -40,7 +42,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x][currentCell.y-1];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean){
+                            step1.currentTime = 0;
+                            step1.play();
+                        } else{
+                            step2.currentTime = 0;
+                            step2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }
@@ -53,7 +63,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x+1][currentCell.y];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean){
+                            step1.currentTime = 0;
+                            step1.play();
+                        } else{
+                            step2.currentTime = 0;
+                            step2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }
@@ -66,7 +84,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x][currentCell.y+1];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean){
+                            step1.currentTime = 0;
+                            step1.play();
+                        } else{
+                            step2.currentTime = 0;
+                            step2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }
@@ -79,7 +105,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x-1][currentCell.y];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean){
+                            step1.currentTime = 0;
+                            step1.play();
+                        } else{
+                            step2.currentTime = 0;
+                            step2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }

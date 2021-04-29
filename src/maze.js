@@ -230,6 +230,25 @@ function shuffle(a) {
     return a;
 }
 
+function printMaze() {
+    var canvas = document.getElementById('maze');
+    
+    var img = canvas.toDataURL("image/png");
+
+    //document.write('<img src="'+img+'" id="mainImg"/>');
+
+    var image = document.createElement("IMG");
+    image.setAttribute("src", img);
+
+    var printWindow = window.open('', 'Print Window','height=400,width=600');
+    printWindow.document.write('<html><head><title>Print Window</title>');
+    printWindow.document.write('</head><body ><img src=\'');
+    printWindow.document.write(image.src);
+    printWindow.document.write('\' /></body></html>');
+    printWindow.document.close();
+    printWindow.print();
+}
+
 const sleep = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }

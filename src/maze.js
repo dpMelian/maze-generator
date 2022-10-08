@@ -7,6 +7,8 @@ var stack;
 var slowMode = false;
 var ctx;
 var hasWon = false;
+let wallColor = '#000000';
+let pathColor = '#ffffff';
 
 class Cell{
     constructor(){
@@ -25,8 +27,6 @@ function maze() {
     stack = new Stack();
 
     clearPlayerCells();
-
-    console.log(document.getElementById('success'));
 
     hasWon = false;
     if(document.getElementById('success') !== null){
@@ -82,10 +82,10 @@ const draw = async(x, y) => {
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
             if(cells[i][j].isWall){
-                ctx.fillStyle = '#000000';
+                ctx.fillStyle = wallColor;
                 ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             } else if(!cells[i][j].isWall){
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = pathColor;
                 ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
             if(playerCells){
@@ -250,7 +250,7 @@ function printMaze() {
 }
 
 const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
 
 function getCells(){
@@ -264,3 +264,21 @@ function getRows(){
 function getColumns(){
     return this.columns;
 }
+
+let wallColorPicker = document.getElementById('wall-color-picker');
+let pathColorPicker = document.getElementById('path-color-picker');
+
+const setMazeWallColor = (event) => {
+    wallColor = event.target.value;
+}
+
+wallColorPicker.addEventListener("input", setMazeWallColor, false);
+wallColorPicker.addEventListener("change", setMazeWallColor, false);
+
+
+const setMazePathColor = (event) => {
+    pathColor = event.target.value;
+}
+
+pathColorPicker.addEventListener("input", setMazePathColor, false);
+pathColorPicker.addEventListener("change", setMazePathColor, false);

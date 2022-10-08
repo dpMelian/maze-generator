@@ -22,7 +22,7 @@ class Stack {
 
     peek(){
         // return the top most element from the stack
-        // but does'nt delete it.
+        // but doesn't delete it.
         return this.items[this.items.length - 1];
     }
 

@@ -126,21 +126,29 @@ const backtracker = async(ctx, x, y) => {
         if(y-2 > 0){
             if(!cells[x][y-2].isVisited && i == 0){
                 randomDirections.push(1);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
             }
         }
         if(x+2 < rows-1){
             if(!cells[x+2][y].isVisited && i == 1){
                 randomDirections.push(2);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
             }
         }
         if(y+2 < rows-1){
             if(!cells[x][y+2].isVisited && i == 2){
                 randomDirections.push(3);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
             }
         }
         if(x-2 > 0){
             if(!cells[x-2][y].isVisited && i == 3){
                 randomDirections.push(4);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
             }
         }
     }

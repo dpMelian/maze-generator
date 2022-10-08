@@ -1,6 +1,9 @@
 var playerCells;
 var currentCell;
 var eventListenerExists = false;
+var slide1 = document.getElementById('slide1');
+var slide2 = document.getElementById('slide2');
+var sound = false;
 
 class PlayerCell{
     constructor(){
@@ -15,6 +18,9 @@ function play(){
     
     var rows = getRows();
     var columns = getColumns();
+
+    sound = document.getElementById('sound').checked;
+
     playerCells = createArray(rows, columns);
     
     for(let i = 0; i < rows; i++){
@@ -40,7 +46,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x][currentCell.y-1];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }
@@ -53,7 +67,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x+1][currentCell.y];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }
@@ -66,7 +88,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x][currentCell.y+1];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }
@@ -79,7 +109,15 @@ function play(){
                     } else{
                         currentCell = playerCells[currentCell.x-1][currentCell.y];
                         currentCell.isPainted = true;
-                        draw();
+                        var randomBoolean = Math.random() < 0.5;
+                        if(randomBoolean && sound){
+                            slide1.currentTime = 0;
+                            slide1.play();
+                        } else if(sound){
+                            slide2.currentTime = 0;
+                            slide2.play();
+                        }
+                        draw(currentCell.x, currentCell.y);
                         break;
                     }
                 }

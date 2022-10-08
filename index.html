@@ -3,6 +3,14 @@
     <head>
         <title>Maze Generator</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <audio id="slide1">
+            <source src="src/sounds/slide1.wav" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="slide2">
+            <source src="src/sounds/slide2.ogg" type="audio/ogg">
+            Your browser does not support the audio element.
+        </audio>
     </head>
     <body>
         <div class="container">
@@ -17,11 +25,19 @@
             </div>
 
             <div>
+                <input type="checkbox" id="sound" class="form-check-input">
+                <label class="form-check-label" for="sound">Sound</label>
+            </div>
+
+            <div>
                 <button id="create-maze" onclick="maze();" type="button" class="btn btn-primary">
                     Generate maze
                 </button>
                 <button id="play" onclick="play();" type="button" class="btn btn-primary">
                     Play
+                </button>
+                <button id="print" onclick="printMaze();" type="button" class="btn btn-primary">
+                    Print
                 </button>
             </div>
                 

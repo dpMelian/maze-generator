@@ -6,6 +6,7 @@ var randomDirections = [];
 var stack;
 var slowMode = false;
 var ctx;
+var hasWon = false;
 
 class Cell{
     constructor(){
@@ -24,6 +25,13 @@ function maze() {
     stack = new Stack();
 
     clearPlayerCells();
+
+    console.log(document.getElementById('success'));
+
+    hasWon = false;
+    if(document.getElementById('success') !== null){
+        document.getElementById('success').remove();
+    }
 
     if(rows % 2 == 0){
         var alertBootstrap = document.createElement('div');
@@ -69,7 +77,7 @@ function maze() {
     }
 }
 
-const draw = async() => {
+const draw = async(x, y) => {
     var playerCells = getPlayerCells();
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < columns; j++){
@@ -85,8 +93,21 @@ const draw = async() => {
                     ctx.fillStyle = '#65ff65';
                     ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
                 }
+                if(i === x && j === y){
+                    ctx.fillStyle = '#2abb2a';
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
             }
         }
+    }
+    if(x === rows-1 && y === columns-2 && !hasWon){
+        hasWon = true;
+        var success = document.createElement('div');
+        success.innerHTML = 'You solved it!';
+        success.setAttribute('id', 'success');
+        success.setAttribute('class', 'alert alert-success');
+        success.setAttribute('role', 'alert');
+        document.body.append(success);
     }
 }
 
@@ -207,6 +228,25 @@ function shuffle(a) {
         [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
+}
+
+function printMaze() {
+    var canvas = document.getElementById('maze');
+    
+    var img = canvas.toDataURL("image/png");
+
+    //document.write('<img src="'+img+'" id="mainImg"/>');
+
+    var image = document.createElement("IMG");
+    image.setAttribute("src", img);
+
+    var printWindow = window.open('', 'Print Window','height=400,width=600');
+    printWindow.document.write('<html><head><title>Print Window</title>');
+    printWindow.document.write('</head><body ><img src=\'');
+    printWindow.document.write(image.src);
+    printWindow.document.write('\' /></body></html>');
+    printWindow.document.close();
+    printWindow.print();
 }
 
 const sleep = (milliseconds) => {
